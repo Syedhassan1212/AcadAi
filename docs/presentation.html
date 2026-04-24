@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcadAI — Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #10b981;
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --text: #f9fafb;
+            --text-dim: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        .presentation {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        section {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+        }
+
+        /* Hero Slide */
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 8rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #818cf8, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-dim);
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+        }
+
+        /* Generic Slide Styles */
+        .slide-content {
+            max-width: 1000px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        /* Features Slide */
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Code/Algo Slide */
+        .code-block {
+            background: #000;
+            padding: 2rem;
+            border-radius: 1rem;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid var(--secondary);
+            margin-top: 2rem;
+        }
+
+        .math {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-top: 1rem;
+            display: block;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 3rem;
+            right: 3rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 1rem;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        button:hover {
+            background: var(--primary);
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.3s ease;
+            z-index: 101;
+        }
+
+        .slide-indicator {
+            position: fixed;
+            bottom: 3.5rem;
+            left: 3rem;
+            font-size: 1rem;
+            color: var(--text-dim);
+        }
+
+        /* Background shapes */
+        .shape {
+            position: absolute;
+            z-index: 0;
+            filter: blur(100px);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .shape-1 { width: 400px; height: 400px; background: var(--primary); top: -100px; left: -100px; }
+        .shape-2 { width: 300px; height: 300px; background: var(--secondary); bottom: -50px; right: -50px; }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section.active .slide-content > * {
+            animation: fadeIn 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-indicator" id="slideIndicator">1 / 7</div>
+
+    <div class="presentation" id="presentation">
+        
+        <!-- SLIDE 1: HERO -->
+        <section class="hero active">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="slide-content" style="text-align: center;">
+                <h1>AcadAI</h1>
+                <p>The Future of Academic Intelligence</p>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: THE PROBLEM -->
+        <section>
+            <div class="slide-content">
+                <h2>The Study Crisis</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Static Content</h3>
+                        <p>Passive reading leads to 70% knowledge loss within 24 hours. Books don't talk back.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Overload</h3>
+                        <p>Students face "Analysis Paralysis" when looking at a 1000-page syllabus.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Burnout</h3>
+                        <p>Studying harder, not smarter, leads to mental fatigue and declining performance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: THE SOLUTION -->
+        <section>
+            <div class="slide-content">
+                <h2>The AI Operating System</h2>
+                <div class="grid">
+                    <div class="card" style="grid-column: span 2;">
+                        <h3>Self-Evolving Learning</h3>
+                        <p>AcadAI transforms your static materials into a <strong>dynamic intelligence graph</strong>. It learns how you learn, maps your curriculum, and guides you to mastery.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Zero Friction</h3>
+                        <p>Upload a PDF. Get a Study Map. Start Learning. No manual planning required.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: THE DAG ENGINE -->
+        <section>
+            <div class="slide-content">
+                <h2>The Dependency Engine</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Kahn's Algorithm</h3>
+                        <p>Automatically sorts topics into the most logical learning sequence.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Visual Study Map</h3>
+                        <p>See exactly how concepts connect. Unlock nodes as you master them.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Critical Path</h3>
+                        <p>The system calculates the shortest path to your exam using Dynamic Programming.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: INTELLIGENCE -->
+        <section>
+            <div class="slide-content">
+                <h2>Proactive Intelligence</h2>
+                <div class="card">
+                    <h3>The Priority Formula</h3>
+                    <p>Every task is weighted in real-time based on your behavior.</p>
+                    <div class="code-block">
+                        <span class="math">Priority = 0.4(CP) + 0.3(DU) + 0.2(Diff) + 0.1(Proc)</span>
+                    </div>
+                </div>
+                <div class="grid" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>Health Monitor</h3>
+                        <p>Uses CUSUM trends to detect burnout before it happens. Triggers automatic replanning.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Neural Tutor</h3>
+                        <p>Context-aware AI that knows your specific files and provides empathetic support.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: TECH STACK -->
+        <section>
+            <div class="slide-content">
+                <h2>Engineering Excellence</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Frontend</h3>
+                        <p>Next.js 16, TypeScript, TailwindCSS, Canvas API.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Intelligence</h3>
+                        <p>Gemini 3 Flash — Sub-2s latency for complex parsing.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Backend</h3>
+                        <p>Supabase PostgreSQL, Edge Workers, RLS Security.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 7: TEAM -->
+        <section>
+            <div class="slide-content">
+                <h2 style="text-align: center;">The Dream Team</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Syed Hassan</h3>
+                        <p style="color: var(--primary); font-weight: 600;">Main Backend Developer</p>
+                        <p>Architected the DAG Engine and Supabase integration.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Rafid Jamil</h3>
+                        <p style="color: var(--primary); font-weight: 600;">Frontend Developer</p>
+                        <p>Designed the premium UI and interactive study visualizations.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Abdullah</h3>
+                        <p style="color: var(--primary); font-weight: 600;">AI Specialist</p>
+                        <p>Integrated Gemini 3 Flash and optimized prompt engineering.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Muhammad Anas</h3>
+                        <p style="color: var(--primary); font-weight: 600;">Debugging & QA</p>
+                        <p>Ensured system stability and resolved critical edge cases.</p>
+                    </div>
+                    <div class="card" style="grid-column: span 2;">
+                        <h3>Wajid ul Hassan</h3>
+                        <p style="color: var(--primary); font-weight: 600;">Deployment & DevOps</p>
+                        <p>Managed Google Cloud Run and CI/CD pipelines.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 8: CALL TO ACTION -->
+        <section>
+            <div class="slide-content" style="text-align: center;">
+                <h2>Master Your Future</h2>
+                <p style="font-size: 2rem; margin-bottom: 3rem; color: var(--text-dim);">Stop Reading. Start Mastering.</p>
+                <div style="background: var(--primary); padding: 2rem 4rem; border-radius: 4rem; display: inline-block; font-weight: 800; font-size: 1.5rem; cursor: pointer;">
+                    Get Started with AcadAI
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn">&larr;</button>
+        <button id="nextBtn">&rarr;</button>
+    </div>
+
+    <script>
+        const presentation = document.getElementById('presentation');
+        const slides = document.querySelectorAll('section');
+        const progressBar = document.getElementById('progressBar');
+        const indicator = document.getElementById('slideIndicator');
+        let currentSlide = 0;
+
+        function updateSlide() {
+            presentation.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            
+            // Update indicator and progress
+            indicator.innerText = `${currentSlide + 1} / ${slides.length}`;
+            progressBar.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+
+            // Handle active class for animations
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
