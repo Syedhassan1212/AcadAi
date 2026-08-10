@@ -4,7 +4,7 @@
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Fill in your environment variables
 
@@ -54,7 +54,7 @@ Open `http://localhost:3000`
 
 ---
 
-## 🧠 System Architecture
+##  System Architecture
 
 ```txt
 ┌─────────────────────────────────────────────────────┐
@@ -89,7 +89,7 @@ Open `http://localhost:3000`
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```txt
 adaptive-study-os/
@@ -119,7 +119,7 @@ adaptive-study-os/
 
 ---
 
-## ⚙️ Intelligence Modules
+##  Intelligence Modules
 
 ### DAG (Dependency-Aware Task Graph)
 
@@ -184,9 +184,9 @@ curl -X POST https://your-app.vercel.app/api/worker \
 
 ---
 
-## 🤖 Gemini Integration
+## Gemini Integration
 
-All AI uses **Google Gemini 1.5 Flash** (`gemini-1.5-flash`).
+All AI uses **Google Gemini 2.5 Flash** (`gemini-2.5-flash`).
 
 | Module | Purpose |
 |---|---|
@@ -215,7 +215,7 @@ All AI uses **Google Gemini 1.5 Flash** (`gemini-1.5-flash`).
 
 ---
 
-## 📅 Vercel Cron
+##  Vercel Cron
 
 Add to `vercel.json`:
 
@@ -237,7 +237,7 @@ Add environment variables in Vercel:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
